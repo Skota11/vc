@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Let's VC</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="square-phone-solid.svg" />
+</head>
+
+<body>
+  <div style="float: left; width: 80%;" class="container">
+    <h1 class="heading">VC-ROOM</h1>
+    <p>下に、VCをする部屋の名前を入力してください<br>簡単な名前にすると、他の人が入ってくる可能性があります(testなど)</p>
+    <p>!カメラへのアクセスを必ず許可してください</p>
+    <div class="room">
+      <div>
+        <video id="js-local-stream"></video>
+        <input type="text" placeholder="Room Name" id="js-room-id">
+        <button id="js-join-trigger">Join</button>
+        <button id="js-leave-trigger">Leave</button>
+      </div>
+
+      <div class="remote-streams" id="js-remote-streams"></div>
+      <div>
+        <p>メッセージ(部屋に入ると、機能します)</p>
+        <input type="text" id="js-local-text">
+        <button id="js-send-trigger">Send</button>
+        <pre class="messages" id="js-messages"></pre>
+      </div>
+    </div>
+
+    <p class="meta" id="js-meta"></p>
+  </div>
+  <div style="float: right; width: 20%;" class="messages" id="members">
+    <p><img src="square-caret-down-regular.svg" height="15px">Menu</p>
+    <p id="realtime"></p>
+    <p id="m-check"></p>
+    <p id="room-id"></p>
+  </div>
+  <span id="js-room-mode" style="display: none;">mesh</span>
+  <script src="//cdn.webrtc.ecl.ntt.com/skyway-4.4.4.js"></script>
+  <script src="./script.js"></script>
+  <script>
+    function twoDigit(num) {
+      let ret;
+      if (num < 10)
+        ret = "0" + num;
+      else
+        ret = num;
+      return ret;
+    }
+    function showClock() {
+      let nowTime = new Date();
+      let nowHour = twoDigit(nowTime.getHours());
+      let nowMin = twoDigit(nowTime.getMinutes());
+      let nowSec = twoDigit(nowTime.getSeconds());
+      let msg = "現在時刻:" + nowHour + ":" + nowMin + ":" + nowSec;
+      document.getElementById("realtime").innerHTML = msg;
+    }
+    setInterval('showClock()', 1000);
+    function check() {
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: true,
+          video: false,
+        }).then(function (stream) {
+          document.getElementById("m-check").innerHTML = "マイクの許可:OK";
+        })
+        .catch(function (err) {
+          document.getElementById("m-check").innerHTML = "マイクの許可:NO";
+        });
+    }
+    setInterval('check()', 1000)
+  </script>
+</body>
+
+</html>

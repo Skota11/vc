@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&family=Poppins:wght@500&display=swap');
+*{
+  font-family: 'Poppins', 'Noto Sans JP';
+}
+video{
+        display: none;
+}
+input {
+border-radius: 3px;
+}
+input:focus {
+    border:solid 1px #ff9f29;
+}
+p{
+  font-size: 15px;
+}
