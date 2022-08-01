@@ -38,6 +38,9 @@
     <p id="realtime"></p>
     <p id="m-check"></p>
     <p id="room-id"></p>
+    <div id="room_member">
+      <p><img src="square-caret-down-regular.svg" height="15px">MemberList</p>
+    </div>
   </div>
   <span id="js-room-mode" style="display: none;">mesh</span>
   <script src="//cdn.webrtc.ecl.ntt.com/skyway-4.4.4.js"></script>
@@ -66,10 +69,10 @@
           audio: true,
           video: false,
         }).then(function (stream) {
-          document.getElementById("m-check").innerHTML = "マイクの許可:OK";
+          document.getElementById("m-check").innerHTML = "マイクの許可:されています。";
         })
         .catch(function (err) {
-          document.getElementById("m-check").innerHTML = "マイクの許可:NO";
+          document.getElementById("m-check").innerHTML = "マイクの許可:されていません。";
         });
     }
     setInterval('check()', 1000)

@@ -14,6 +14,7 @@ const Peer = window.Peer;
   const sdkSrc = document.querySelector('script[src*=skyway]');
   const RoomName = document.getElementById('room-id');
   const members = document.getElementById('members');
+  const memberlist = document.getElementById('room_member');
 
   const getRoomModeByHash = () => (location.hash === '#sfu' ? 'sfu' : 'mesh');
 
@@ -57,14 +58,25 @@ const Peer = window.Peer;
     });
 
     room.once('open', () => {
+      const newmember = document.createElement('p');
+      newmember.innerHTML = `YourID:${peer.id}`
+      // mark peerId to find it later at peerLeave event
+      newmember.setAttribute('data-peer-id', peer.id);
+      memberlist.append(newmember);
+      
       messages.textContent += '=== You joined ===\n';
     });
-    room.on('peerJoin', peerId => {
-      messages.textContent += `=== ${peerId} joined ===\n`;
-    });
+    // room.on('peerJoin', peerId => {
+    // });
 
     // Render remote stream for new peer join in the room
     room.on('stream', async stream => {
+      const newmember = document.createElement('p');
+      newmember.innerHTML = `・${stream.peerId}`
+      // mark peerId to find it later at peerLeave event
+      newmember.setAttribute('data-peer-id', stream.peerId);
+      memberlist.append(newmember);
+
       const newVideo = document.createElement('video');
       newVideo.srcObject = stream;
       newVideo.playsInline = true;
