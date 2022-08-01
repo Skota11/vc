@@ -93,18 +93,26 @@ const Peer = window.Peer;
 
     // for closing room members
     room.on('peerLeave', peerId => {
-      const remoteVideo = remoteVideos.querySelector(
+      const remoteyou = memberlist.querySelector(
         `[data-peer-id="${peerId}"]`
       );
-      remoteVideo.srcObject.getTracks().forEach(track => track.stop());
-      remoteVideo.srcObject = null;
-      remoteVideo.remove();
+      remoteyou.remove();
+
+      const remotemember = memberlist.querySelector(
+        `[data-peer-id="${peerId}"]`
+      );
+      remotemember.remove();
 
       messages.textContent += `=== ${peerId} left ===\n`;
     });
 
     // for closing myself
     room.once('close', () => {
+      const remotemember = memberlist.querySelector(
+        `[data-peer-id="${peer.id}"]`
+      );
+      remotemember.remove();
+      
       sendTrigger.removeEventListener('click', onClickSend);
       messages.textContent += '== You left ===\n';
       Array.from(remoteVideos.children).forEach(remoteVideo => {
